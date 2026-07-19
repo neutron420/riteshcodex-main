@@ -45,7 +45,7 @@ export const useVisitorCount = (): number | null => {
             {
               method: 'PATCH',
               headers,
-              body: JSON.stringify({ count: newCount }),
+              body: JSON.stringify({ data: { count: newCount } }),
             }
           );
           setCount(newCount);
