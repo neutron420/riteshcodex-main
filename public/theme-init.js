@@ -1,1 +1,2 @@
-(function(){try{var e="vite-ui-theme",t=localStorage.getItem(e);if("dark"===t||!t&&"dark"==="dark")document.documentElement.classList.add("dark");else if("light"===t)document.documentElement.classList.add("light");else if("system"===t){document.documentElement.classList.add(window.matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light")}}catch(_){}})()
+/* eslint-disable */
+(function(){try{var e="vite-ui-theme",t=localStorage.getItem(e);if("dark"===t||!t&&"dark"==="dark")document.documentElement.classList.add("dark");else if("light"===t)document.documentElement.classList.add("light");else if("system"===t){document.documentElement.classList.add(window.matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light")}}catch(e){}})()
