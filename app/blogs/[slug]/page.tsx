@@ -99,7 +99,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <RepeatSeparator cn="h-8 opacity-50" />
       <div data-doc-cols-ready="">
         {/* 1. Document Header Container */}
-        <div data-slot="doc-container" className="mx-auto w-full md:max-w-3xl">
+        <div data-slot="doc-container" className="mx-auto w-full">
           <div className="screen-line-bottom h-px" />
 
           <div className="flex items-center justify-between p-2 pl-4">
@@ -120,7 +120,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
           <RepeatSeparator cn="h-8" />
           <div className="screen-line-top screen-line-bottom py-px">
-            <div className="mx-auto h-4 md:max-w-3xl" />
+            <div className="mx-auto h-4 w-full" />
           </div>
           <div className="screen-line-bottom">
             <h1
@@ -135,11 +135,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {/* 2. Document Grid with Columns */}
         <div
           data-slot="doc-grid"
-          className="mx-auto grid w-full grid-cols-1 lg:grid-cols-[1fr_var(--container-3xl)_1fr]"
+          className="mx-auto w-full"
         >
-          <aside data-slot="doc-left-col" className="max-lg:hidden" />
-
-          <div data-slot="doc-content-col" className="mx-auto w-full md:max-w-3xl">
+          <div data-slot="doc-content-col" className="mx-auto w-full">
             <div data-slot="prose" className="prose dark:prose-invert w-full px-5 pt-6">
               {/* Description */}
               <p className="text-muted-foreground  mb-6 text-base leading-relaxed font-normal text-wrap sm:text-base">

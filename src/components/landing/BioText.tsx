@@ -32,7 +32,7 @@ const BioText = () => {
             </li>
 
             <li>
-              I enjoy turning complex problems into simple, elegant solutions — from frontend to infrastructure.
+              I enjoy turning complex problems into simple, elegant solutions from frontend to infrastructure.
             </li>
           </ul>
         </div>

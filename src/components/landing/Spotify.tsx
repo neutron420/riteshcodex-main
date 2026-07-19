@@ -48,7 +48,7 @@ const Spotify = () => {
   if (!discordId) {
     return (
       <div className="flex w-fit items-center gap-2 rounded-lg border border-yellow-500/20 bg-yellow-500/5 px-3 py-2 text-xs text-yellow-600 select-none dark:text-yellow-400">
-        Add VITE_DISCORD_ID in your .env file to enable Spotify Now Playing!
+        Add NEXT_PUBLIC_DISCORD_ID in your .env file to enable Spotify Now Playing!
       </div>
     );
   }
@@ -79,7 +79,25 @@ const Spotify = () => {
   }
 
   if (error && !data) {
-    return null; // Don't show anything if there's an error and no cached song
+    return (
+      <div className="relative z-40 mb-3 h-16 w-full select-none">
+        <div className="absolute right-0 bottom-3 left-0 mx-auto flex w-fit items-center">
+          <div className="flex w-fit cursor-default items-center gap-2.5 rounded-full border border-neutral-200 bg-neutral-100/40 py-1.5 pr-4 pl-2 text-xs shadow-sm ring-1 ring-neutral-300/50 dark:border-neutral-800/80 dark:bg-neutral-900/40 dark:ring-neutral-700/50">
+            <div className="flex size-9 items-center justify-center rounded-full bg-neutral-100 dark:bg-neutral-800">
+              <SpotifyIcon className="size-4 text-[#1DB954]" />
+            </div>
+            <div className="flex flex-col gap-0.5 leading-tight">
+              <span className="max-w-[150px] truncate text-[11px] font-semibold text-neutral-800 dark:text-neutral-100">
+                Spotify
+              </span>
+              <span className="max-w-[150px] truncate text-[10px] text-neutral-500 dark:text-neutral-400">
+                Play a song to show here
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   const isOffline = !data;

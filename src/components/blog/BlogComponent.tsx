@@ -49,12 +49,20 @@ export const BlogComponents = {
     </h3>
   ),
 
-  // Paragraph styling
-  p: ({ children, ...props }: ChildrenProps) => (
-    <p className="text-secondary mb-6 leading-relaxed" {...props}>
-      {children}
-    </p>
-  ),
+  // Paragraph styling — use div when children contain block-level elements to avoid invalid nesting
+  p: ({ children, ...props }: ChildrenProps) => {
+    const hasBlockChildren = React.Children.toArray(children).some(
+      (child) =>
+        React.isValidElement(child) &&
+        typeof child.type !== 'string'
+    );
+    const Tag = hasBlockChildren ? 'div' : 'p';
+    return (
+      <Tag className="text-secondary mb-6 leading-relaxed" {...props}>
+        {children}
+      </Tag>
+    );
+  },
 
   // Lists styling
   ul: ({ children, ...props }: ChildrenProps) => (
@@ -118,7 +126,7 @@ export const BlogComponents = {
         return node.map(getRawText).join('');
       }
       if (React.isValidElement(node)) {
-        return getRawText(node.props.children);
+        return getRawText((node.props as { children?: React.ReactNode }).children);
       }
       return '';
     };

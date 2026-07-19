@@ -7,8 +7,9 @@ import { ArrowLeft } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import rehypeHighlight from 'rehype-highlight';
+import RemarkGfm from 'remark-gfm';
+import RehypeHighlight from 'rehype-highlight';
+import RehypeRaw from 'rehype-raw';
 import { ProjectComponents } from '@/components/projects/ProjectComponents';
 import { ZoomableImage } from '@/components/projects/ZoomableImage';
 import { ProjectNavigation } from '@/components/common/ProjectNavigation';
@@ -101,7 +102,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       <RepeatSeparator cn="h-8 opacity-50" />
       <div data-doc-cols-ready="">
         {/* 1. Document Header Container */}
-        <div data-slot="doc-container" className="mx-auto w-full md:max-w-3xl">
+        <div data-slot="doc-container" className="mx-auto w-full">
           <div className="screen-line-bottom h-px" />
 
           <div className="flex items-center justify-between p-2 pl-4">
@@ -121,7 +122,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
           <RepeatSeparator cn="h-8" />
           <div className="screen-line-top screen-line-bottom py-px">
-            <div className="mx-auto h-4 md:max-w-3xl" />
+            <div className="mx-auto h-4 w-full" />
           </div>
           <div className="screen-line-bottom pb-4">
             <h1
@@ -134,14 +135,12 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         </div>
 
         {/* 2. Document Grid with Columns */}
-        <div
-          data-slot="doc-grid"
-          className="mx-auto grid w-full grid-cols-1 lg:grid-cols-[1fr_var(--container-3xl)_1fr]"
-        >
-          <aside data-slot="doc-left-col" className="max-lg:hidden" />
-
-          <div data-slot="doc-content-col" className="mx-auto w-full md:max-w-3xl">
-            <div data-slot="prose" className="prose dark:prose-invert w-full px-4 pt-12">
+          <div
+            data-slot="doc-grid"
+            className="mx-auto w-full min-w-0"
+          >
+            <div data-slot="doc-content-col" className="min-w-0 mx-auto w-full">
+            <div data-slot="prose" className="prose dark:prose-invert w-full min-w-0 max-w-none px-4 pt-12 prose-pre:overflow-x-auto">
               {/* Project description (subheading) */}
               <p className="text-muted-foreground mb-6 text-base leading-relaxed font-normal text-wrap sm:text-base">
                 {projectMeta.description}
@@ -223,9 +222,9 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
               {/* Challenges & Learnings */}
               {(projectMeta.challenges?.length || projectMeta.learnings?.length) && (
-                <div className="not-prose mb-8 grid gap-6 md:grid-cols-2">
+                <div className="not-prose mb-8 grid min-w-0 gap-6 md:grid-cols-2">
                   {projectMeta.challenges && projectMeta.challenges.length > 0 && (
-                    <div className="rounded-lg border border-yellow-200 bg-yellow-50/20 p-4 dark:border-yellow-800/40 dark:bg-yellow-950/10">
+                    <div className="min-w-0 rounded-lg border border-yellow-200 bg-yellow-50/20 p-4 break-words dark:border-yellow-800/40 dark:bg-yellow-950/10">
                       <h3 className="mb-3 text-lg font-semibold text-yellow-800 dark:text-yellow-200">
                         Key Challenges
                       </h3>
@@ -236,7 +235,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                             className="flex items-start gap-2 text-sm text-yellow-700 dark:text-yellow-300"
                           >
                             <span className="mt-1.5 block size-1.5 shrink-0 rounded-full bg-yellow-500 dark:bg-yellow-400" />
-                            <span>{challenge}</span>
+                            <span className="break-words [overflow-wrap:break-word] [word-break:break-word]">{challenge}</span>
                           </li>
                         ))}
                       </ul>
@@ -244,7 +243,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                   )}
 
                   {projectMeta.learnings && projectMeta.learnings.length > 0 && (
-                    <div className="rounded-lg border border-green-200 bg-green-50/20 p-4 dark:border-green-800/40 dark:bg-green-950/10">
+                    <div className="min-w-0 rounded-lg border border-green-200 bg-green-50/20 p-4 break-words dark:border-green-800/40 dark:bg-green-950/10">
                       <h3 className="mb-3 text-lg font-semibold text-green-800 dark:text-green-200">
                         Key Learnings
                       </h3>
@@ -255,7 +254,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                             className="flex items-start gap-2 text-sm text-green-700 dark:text-green-300"
                           >
                             <span className="mt-1.5 block size-1.5 shrink-0 rounded-full bg-green-500 dark:bg-green-400" />
-                            <span>{learning}</span>
+                            <span className="break-words [overflow-wrap:break-word] [word-break:break-word]">{learning}</span>
                           </li>
                         ))}
                       </ul>
@@ -266,8 +265,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
               {/* Markdown Body Content */}
               <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeHighlight]}
+                remarkPlugins={[RemarkGfm]}
+                rehypePlugins={[RehypeHighlight, RehypeRaw]}
                 components={ProjectComponents as any}
               >
                 {content}

@@ -91,27 +91,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="theme-custom" suppressHydrationWarning>
       <head>
-        <script
-          id="theme-init"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var key = "vite-ui-theme";
-                  var theme = localStorage.getItem(key);
-                  if (theme === "dark" || (!theme && "dark" === "dark")) {
-                    document.documentElement.classList.add("dark");
-                  } else if (theme === "light") {
-                    document.documentElement.classList.add("light");
-                  } else if (theme === "system") {
-                    var dark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-                    document.documentElement.classList.add(dark ? "dark" : "light");
-                  }
-                } catch (e) {}
-              })()
-            `,
-          }}
-        />
+        <script src="/theme-init.js" async />
       </head>
       <body
         className={`${geistSans.variable} ${pixelifySans.variable} min-h-screen font-sans antialiased`}

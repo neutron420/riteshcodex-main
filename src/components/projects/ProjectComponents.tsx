@@ -41,7 +41,7 @@ const Technology = ({ name = '' }: { name?: string }) => {
   const TechComponent = TechnologyComponents[name] || TechnologyComponents[name?.toLowerCase()];
 
   return (
-    <div className="text-foreground flex size-fit items-center gap-1.5 rounded-full border border-neutral-300/40 bg-zinc-50 px-2 py-0.5 text-xs font-normal tracking-wide shadow-xs select-none dark:border-neutral-800/80 dark:bg-zinc-900/60 [&_svg]:size-3.5">
+    <span className="text-foreground inline-flex size-fit items-center gap-1.5 rounded-full border border-neutral-300/40 bg-zinc-50 px-2 py-0.5 text-xs font-normal tracking-wide shadow-xs select-none dark:border-neutral-800/80 dark:bg-zinc-900/60 [&_svg]:size-3.5">
       {TechComponent && (
         <span className="flex size-3.5 shrink-0 items-center justify-center [&_svg]:size-3.5">
           <TechComponent />
@@ -50,7 +50,7 @@ const Technology = ({ name = '' }: { name?: string }) => {
       <span className="text-foreground text-xs font-normal tracking-wide whitespace-nowrap">
         {name}
       </span>
-    </div>
+    </span>
   );
 };
 
@@ -199,12 +199,20 @@ export const ProjectComponents = {
     </h3>
   ),
 
-  // Paragraph styling
-  p: ({ children, ...props }: ChildrenProps) => (
-    <p className="text-secondary mb-6 leading-relaxed" {...props}>
-      {children}
-    </p>
-  ),
+  // Paragraph styling — use div when children contain block-level elements to avoid invalid nesting
+  p: ({ children, ...props }: ChildrenProps) => {
+    const hasBlockChildren = React.Children.toArray(children).some(
+      (child) =>
+        React.isValidElement(child) &&
+        typeof child.type !== 'string' // custom components may render block elements
+    );
+    const Tag = hasBlockChildren ? 'div' : 'p';
+    return (
+      <Tag className="text-secondary mb-6 leading-relaxed" {...props}>
+        {children}
+      </Tag>
+    );
+  },
 
   // Lists styling
   ul: ({ children, ...props }: ChildrenProps) => (
@@ -268,7 +276,7 @@ export const ProjectComponents = {
         return node.map(getRawText).join('');
       }
       if (React.isValidElement(node)) {
-        return getRawText(node.props.children);
+        return getRawText((node.props as { children?: React.ReactNode }).children);
       }
       return '';
     };
@@ -291,7 +299,15 @@ export const ProjectComponents = {
     <hr className="my-12 border-t border-neutral-300/40 dark:border-neutral-800/80" {...props} />
   ),
 
-  Technology,
+  table: ({ children, ...props }: ChildrenProps) => (
+    <div className="overflow-x-auto my-6">
+      <table className="min-w-full border-collapse" {...props}>
+        {children}
+      </table>
+    </div>
+  ),
+
+  technology: Technology,
   TechStack,
   ProjectMeta,
   Challenges,

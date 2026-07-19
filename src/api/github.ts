@@ -1,7 +1,5 @@
 const GITHUB_TOKEN = process.env.NEXT_PUBLIC_GITHUB_TOKEN;
 const GITHUB_USERNAME = 'neutron420';
-const REPO_OWNER = 'neutron420';
-const REPO_NAME = 'neutron420';
 
 interface GitHubResponse {
   data?: {
@@ -65,19 +63,35 @@ export const fetchRepoStars = async (): Promise<number> => {
   }
 
   try {
-    const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}`, {
-      headers: {
-        Authorization: `Bearer ${GITHUB_TOKEN}`,
-        Accept: 'application/vnd.github.v3+json',
-      },
-    });
+    let totalStars = 0;
+    let page = 1;
+    let hasMore = true;
 
-    if (!response.ok) {
-      return 0;
+    while (hasMore) {
+      const response = await fetch(
+        `https://api.github.com/users/${GITHUB_USERNAME}/repos?per_page=100&page=${page}`,
+        {
+          headers: {
+            Authorization: `Bearer ${GITHUB_TOKEN}`,
+            Accept: 'application/vnd.github.v3+json',
+          },
+        }
+      );
+
+      if (!response.ok) break;
+
+      const repos: RepoResponse[] = await response.json();
+      if (repos.length === 0) break;
+
+      for (const repo of repos) {
+        totalStars += repo.stargazers_count ?? 0;
+      }
+
+      page++;
+      if (repos.length < 100) hasMore = false;
     }
 
-    const data: RepoResponse = await response.json();
-    return data.stargazers_count ?? 0;
+    return totalStars;
   } catch {
     return 0;
   }
