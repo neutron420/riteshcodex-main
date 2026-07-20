@@ -15,14 +15,14 @@ const Footer = () => {
             {footerConfig.text} <b>{footerConfig.developer}</b> <br /> &copy;{' '}
             {new Date().getFullYear()}. {footerConfig.copyright}
           </p>
-          <div className="mx-auto w-full max-w-4xl overflow-hidden rounded-2xl bg-black shadow-2xl ring-1 ring-white/10">
+          <div className="mx-auto w-full max-w-4xl rounded-2xl bg-black shadow-2xl">
             <video
               src={videoSrc}
               autoPlay
               loop
               muted
               playsInline
-              className="aspect-video w-full object-cover"
+              className="aspect-video w-full rounded-2xl object-cover"
             >
               Your browser does not support the video tag.
             </video>
