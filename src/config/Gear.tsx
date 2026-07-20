@@ -2,7 +2,7 @@ import { Headphones, Keyboard, Laptop, Mouse, Phone } from "lucide-react";
 
 export const devices = [
   {
-    name: "Asus VivoBook 8GB 512GB ( Linux + Windows dual boot )",
+    name: "HP Victus (Ryzen 5, RTX 3050)",
     icon: <Laptop className="size-4" />,
   },
 
@@ -11,15 +11,19 @@ export const devices = [
     icon: <Keyboard className="size-4" />,
   },
   {
-    name: "HP 5500 Wireless",
+    name: "Logitech Mouse",
     icon: <Mouse className="size-4" />,
   },
   {
-    name: "pTron + OnePlus Nord Buds 3",
+    name: "Sony WH-CH250",
     icon: <Headphones className="size-4" />,
   },
   {
-    name: "Samsung S24 FE 5G (128 GB)",
+    name: "OnePlus Nord Buds 3",
+    icon: <Headphones className="size-4" />,
+  },
+  {
+    name: "Realme 9 Pro+ / Narzo",
     icon: <Phone className="size-4" />,
   },
 ];
